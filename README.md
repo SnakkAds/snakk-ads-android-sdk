@@ -5,8 +5,8 @@ Version 2.0.0
 
 This is the Android SDK for the Snakk! mobile ad network. Go to http://snakkads.com/ for more details and to sign up.
 
-###[Download Snakk SDK](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/raw/master/dist/SnakkSDK.zip)<br/>
-###[Example project source](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/tree/master/src/example)
+###[Download Snakk SDK](https://github.com/SnakkAds/snakk-ads-android-sdk/raw/master/dist/SnakkSDK.zip)<br/>
+###[Example project source](https://github.com/SnakkAds/snakk-ads-android-sdk/tree/master/src/example)
 
 
 Requrements:
@@ -17,10 +17,10 @@ Android SDK 2.2+ (API level 8) or above
 Usage:
 ------
 *We've streamlined our API as of v1.8.0, but still support previous integrations.
- Check the [Old SDK Docs](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/README_LEGACY.md)
+ Check the [Old SDK Docs](https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/README_LEGACY.md)
 for legacy API documentation.*
 
-* To install, extract the [Snakk SDK Archive](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/raw/master/dist/SnakkSDK.zip) into your project's `/libs` folder, and add `SnakkSDK.jar` into the project's build path:
+* To install, extract the [Snakk SDK Archive](https://github.com/SnakkAds/snakk-ads-android-sdk/raw/master/dist/SnakkSDK.zip) into your project's `/libs` folder, and add `SnakkSDK.jar` into the project's build path:
 
 * Set `SnakkSDK.jar` to be exported as part of your apk file:
 
@@ -42,11 +42,11 @@ for legacy API documentation.*
     android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
 
 ````
-See [AndroidManifest.xml](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/example/AndroidManifest.xml) for an example manifest file.
+See [AndroidManifest.xml](https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/example/AndroidManifest.xml) for an example manifest file.
 
 **NOTE:** Zones correspond to a specific ad type, which is specified through the Snakk dashboard.  Please ensure that you use the correct Zone ID for your ad units or you may experience un-expected results.
 
-A sample project is included in this repo.  See [Example Code](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/tree/master/src/example) for a live demo.
+A sample project is included in this repo.  See [Example Code](https://github.com/SnakkAds/snakk-ads-android-sdk/tree/master/src/example) for a live demo.
 
 AdPrompt Usage
 --------------
@@ -62,7 +62,7 @@ SnakkAdPrompt adPrompt = SnakkAdvertising.get().getAdPromptForZone(this, "YOUR_A
 adPrompt.show();
 ````
 
-Advanced implementation can be found in the [Example Code](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
+Advanced implementation can be found in the [Example Code](https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
 
 
 Banner Usage
@@ -102,7 +102,7 @@ SnakkBannerAdView bannerAdView = (SnakkBannerAdView)findViewById(R.id.bannerAd);
 bannerAdView.startRequestingAdsForZone("YOUR_BANNER_ZONE_ID");
 ````
 
-Advanced implementation can be found in the [Example Code](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
+Advanced implementation can be found in the [Example Code](https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
 
 
 Interstitial Usage
@@ -119,7 +119,7 @@ SnakkInterstitialAd interstitialAd = SnakkAdvertising.get().getInterstitialAdFor
 interstitialAd.show();
 ````
 
-Advanced implementation can be found in the [Example Code](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
+Advanced implementation can be found in the [Example Code](https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
 
 
 Video Ads Usage
@@ -136,4 +136,4 @@ import com.snakk.advertising.*;
 SnakkVideoInterstitialAd videoAd = SnakkAdvertising.get().getVideoInterstitialAdForZone(this, "YOUR_VIDEO_ZONE_ID");
 videoAd.show();
 ````
-Advanced implementation can be found in the [Example Code](https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
+Advanced implementation can be found in the [Example Code](https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)

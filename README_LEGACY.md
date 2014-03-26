@@ -11,13 +11,13 @@ This is the Android SDK for the Snakk! mobile ad network. Go to http://snakkads.
 
 Usage:
 ------
-To install, extract the SDK archive(https://github.com/SnakkMedia/Snakk-Android-SDK-Source/raw/master/dist/SnakkSDK-android.zip) into your project's ```/lib``` folder, and add SnakkAdView.jar into the project's build path:
+To install, extract the SDK archive(https://github.com/SnakkAds/snakk-ads-android-sdk/raw/master/dist/SnakkSDK-android.zip) into your project's ```/lib``` folder, and add SnakkAdView.jar into the project's build path:
 
-![Add SnakkAdView.jar to Build Path](https://raw.github.com/SnakkMedia/Snakk-Android-SDK-Source/master/doc/assets/add_jar.png)
+![Add SnakkAdView.jar to Build Path](https://raw.github.com/SnakkAds/snakk-ads-android-sdk/master/doc/assets/add_jar.png)
 
 Set SnakkAdView.jar to be exported as part of your apk file:
 
-![Export SnakkAdView.jar](https://raw.github.com/SnakkMedia/Snakk-Android-SDK-Source/master/doc/assets/export_jar.png)
+![Export SnakkAdView.jar](https://raw.github.com/SnakkAds/snakk-ads-android-sdk/master/doc/assets/export_jar.png)
 
 
 ````xml
@@ -38,13 +38,13 @@ Set SnakkAdView.jar to be exported as part of your apk file:
 ````
 Your manifest should look something like this:
 
-![Example manifest](https://raw.github.com/SnakkMedia/Snakk-Android-SDK-Source/master/doc/assets/manifest.png)
+![Example manifest](https://raw.github.com/SnakkAds/snakk-ads-android-sdk/master/doc/assets/manifest.png)
 
-See https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/legacy-example/AndroidManifest.xml for an example manifest file.
+See https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/legacy-example/AndroidManifest.xml for an example manifest file.
 
 **NOTE:** Zones correspond to a specific ad type, which is specified through the Snakk dashboard.  Please ensure that you use the correct Zone ID for your ad units or you may experience un-expected results.
 
-A sample project is included in this repo.  See https://github.com/SnakkMedia/Snakk-Android-SDK-Source/tree/master/src/legacy-example for a live demo.
+A sample project is included in this repo.  See https://github.com/SnakkAds/snakk-ads-android-sdk/tree/master/src/legacy-example for a live demo.
 
 AdPrompt Usage
 --------------
@@ -55,7 +55,7 @@ AdPrompt adPrompt = new AdPrompt(this, "YOUR_ZONE_ID");
 adPrompt.showAdPrompt();
 ````
 
-Sample implementation can be found here: https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/legacy-example/src/com/yourcompany/SampleActivity.java#L179
+Sample implementation can be found here: https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/legacy-example/src/com/yourcompany/SampleActivity.java#L179
 
 
 Banner Usage
@@ -119,7 +119,7 @@ bannerAd.setOnAdDownload(new OnAdDownload() {
 });
 ````
 
-Sample implementation can be found here: https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/legacy-example/src/com/yourcompany/SampleActivity.java#L49
+Sample implementation can be found here: https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/legacy-example/src/com/yourcompany/SampleActivity.java#L49
 
 
 Interstitial Usage
@@ -195,10 +195,10 @@ interstitialAd.setOnInterstitialAdDownload(new OnInterstitialAdDownload() {
 interstitialAd.load(); // request an ad from the server, to be displayed later...
 ````
 
-Sample implementation can be found here: https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/legacy-example/src/com/yourcompany/SampleActivity.java#L192
+Sample implementation can be found here: https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/legacy-example/src/com/yourcompany/SampleActivity.java#L192
 
 
 ProGuard Settings
 -----------------
 Recommended ProGuard settings can be found here:
-https://github.com/SnakkMedia/Snakk-Android-SDK-Source/blob/master/src/legacy-example/proguard-project.txt
+https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/legacy-example/proguard-project.txt
