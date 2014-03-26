@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="SnakkSDK" default="release">
+
+    <include file="properties.xml" />
+
+    <!-- TODO automate version number dissemination -->
+
+    <target name="clean" description="Start from scratch">
+        <delete dir="${build.dir}"/>
+    </target>
+
+    <target name="compile" description="compile class files">
+        <delete dir="${build.src.dir}" />
+        <mkdir dir="${build.src.dir}" />
+        <javac destdir="${build.src.dir}" debug="on" debuglevel="lines,source" includeantruntime="false">
+            <!--<compilerarg value="-Xlint" />-->
+            <src refid="src.pathref" />
+            <!--<exclude name="**/package-info.java" />-->
+            <classpath refid="src.dependencies.pathref" />
+        </javac>
+    </target>
+
+    <target name="build" description="Assemble jar">
+        <jar destfile="${build.dir}/${jar.name}"
+            basedir="${build.src.dir}"
+            manifest="MANIFEST.MF">
+        </jar>
+    </target>
+
+    <target name="test" description="Run unit tests">
+        <fail message="No tests defined!" />
+    </target>
+
+    <target name="javadocs" description="Build javadocs">
+        <delete dir="${build.javadoc.dir}" quiet="true"/>
+        <javadoc destdir="${build.javadoc.dir}" public="yes" noqualifier="all"
+                windowtitle="${javadoc.title}">
+            <!-- ignore tags used for uml diagram generation -->
+            <tag name="opt" enabled="false" />
+            <tag name="note" enabled="false" />
+            <tag name="depend" enabled="false" />
+            <classpath refid="src.dependencies.pathref" />
+            <fileset refid="javadoc.src.pathref" />
+            <!--<doclet name="com.visural.doclets.markdown.standard.Standard" path="lib/MarkdownDoclet-3.0.jar" />-->
+        </javadoc>
+        <zip destfile="${build.dir}/${javadoc.name}" basedir="${build.javadoc.dir}" />
+    </target>
+
+    <target name="sample" depends="build" description="Build a sample app project that depends on built jar">
+        <fail message="need to implement sample app target" />
+    </target>
+
+    <target name="package" description="Build distributable package">
+        <!-- zip up readme, jar, javadocs, licence -->
+        <!-- TODO add sample app to distributable -->
+        <zip destfile="${release.dir}/${distributable.name}" whenempty="fail" update="">
+            <mappedresources>
+                <fileset refid="distributable.pathref" />
+                <!-- create zip w/ all files contained in base folder named ${release.name} -->
+                <chainedmapper>
+                    <flattenmapper />
+                    <globmapper from="*" to="${release.name}/*"/>
+                </chainedmapper>
+            </mappedresources>
+        </zip>
+    </target>
+
+    <target name="docs" depends="javadocs" description="Assemble documentation, update version numbers, etc..." />
+
+    <target name="release" depends="clean, compile, build, docs, package" description="Generate distributable">
+        <!--<antcall target="clean" />-->
+    </target>
+</project>

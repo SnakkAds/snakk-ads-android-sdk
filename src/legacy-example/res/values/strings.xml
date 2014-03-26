@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Snakk Example</string>
+    <string name="load_interstitial">Load Interstitial</string>
+    <string name="show_interstitial">Show Interstitial</string>
+    <string name="load_adprompt">Load Alert Ad</string>
+    <string name="show_adprompt">Show AdPrompt</string>
+    <string name="admob_mediation">AdMob Mediation</string>
+</resources>

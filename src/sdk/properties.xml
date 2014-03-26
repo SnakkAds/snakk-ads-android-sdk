@@ -1,0 +1,60 @@
+<project>
+    <property file="project.properties" />
+    <!-- The local.properties file is created and updated by the 'android'
+         tool.
+         It contains the path to the SDK. It should *NOT* be checked into
+         Version Control Systems. -->
+    <property file="local.properties" />
+
+    <property name="src.dir" value="src" />
+    <property name="build.dir" value="build" />
+    <property name="build.src.dir" value="${build.dir}/src" />
+    <property name="build.javadoc.dir" value="${build.dir}/javadoc" />
+    <property name="release.name" value="SnakkSDK" />
+    <property name="jar.name" value="${release.name}.jar" />
+    <property name="javadoc.name" value="${release.name}-javadoc.zip" />
+    <property name="distributable.name" value="${release.name}.zip" />
+    <property name="release.dir" value="../../dist" />
+    <property name="readme" value="README.md" />
+    <property name="javadoc.title" value="Snakk! Android SDK" />
+    <property name="license.file" value="LICENCE" />
+
+    <path id="src.pathref">
+        <pathelement path="${src.dir}" />
+    </path>
+
+    <path id="src.excludes.pathref">
+    </path>
+
+    <path id="src.dependencies.pathref">
+        <pathelement path="${android.jar}"/>
+        <!--<pathelement path="lib/GoogleAdMobAdsSdk-6.4.1.jar"/>-->
+    </path>
+
+    <fileset id="javadoc.src.pathref" dir="${src.dir}">
+        <include name="com/snakk/advertising/**/*.java"/>
+        <exclude name="com/snakk/advertising/internal/**" />
+        <exclude name="com/snakk/advertising/Config.java" />
+        <include name="com/snakk/adview/package-info.java"/>
+        <include name="com/snakk/adview/**/AdView.java"/>
+        <include name="com/snakk/adview/**/AdInterstitialView.java"/>
+        <include name="com/snakk/adview/**/AdPrompt.java"/>
+        <include name="com/snakk/mediation/admob/package-info.java"/>
+    </fileset>
+
+    <fileset id="rebrand.sdk.root.pathref" dir="${sdk.root}">
+        <include name="src/com/snakk/**" />
+        <include name="src/com/phunware/**" />
+        <exclude name="src/com/phunware/advertising/*AdvertisingModule.java" />
+        <exclude name="lib" />
+    </fileset>
+
+
+
+    <fileset id="distributable.pathref" dir=".">
+        <include name="LICENSE" />
+        <include name="README.txt" />
+        <include name="${build.dir}/${jar.name}" />
+        <include name="${build.dir}/${javadoc.name}" />
+    </fileset>
+</project>

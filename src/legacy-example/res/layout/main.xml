@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+        <TextView
+            android:id="@+id/deviceIdentifier"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="" />
+        <Button
+            android:id="@+id/loadInterstitialButton"
+            android:text="@string/load_interstitial"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/showInterstitialButton"
+            android:text="@string/show_interstitial"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" />
+        <Button
+            android:id="@+id/loadAdPromptButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/load_adprompt" />
+        <Button
+            android:id="@+id/showAdPromptButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/show_adprompt" />
+        <Button
+            android:id="@+id/loadAdMobButton"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/admob_mediation"
+            android:layout_marginTop="20dp"
+            android:enabled="false" />
+    </LinearLayout>
+
+    <com.snakk.adview.AdView
+        android:id="@+id/bannerAd"
+        android:layout_width="320dp"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        zone="7979" />
+
+</RelativeLayout>

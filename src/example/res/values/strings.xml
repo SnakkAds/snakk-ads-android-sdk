@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Advertising Sample</string>
+    <string name="adprompt">AdPrompt</string>
+    <string name="interstitial">Interstitial</string>
+    <string name="video">Video</string>
+    <string name="banner">Banner</string>
+
+    <string name="app_appid">appid</string>
+    <string name="app_accesskey">abcd12345</string>
+    <string name="app_signaturekey">098765fghjkl</string>
+    <string name="app_encryptionkey">65as6d54f065sd4f0</string>
+
+    <string name="banner_zone_id">7979</string>
+    <string name="video_zone_id">7981</string>
+    <string name="intrs_zone_id">7983</string>
+    <string name="adprompt_zone_id">7984</string>
+
+</resources>
