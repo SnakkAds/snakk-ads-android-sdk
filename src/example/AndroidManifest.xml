@@ -1,29 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yourcompany.example"
+    package="com.snakkads.tabsswipe"
     android:versionCode="1"
-    android:versionName="1.0">
+    android:versionName="1.0" >
 
-    <uses-sdk android:minSdkVersion="8" android:targetSdkVersion="19" />
-
+    <uses-sdk
+        android:minSdkVersion="11"
+        android:targetSdkVersion="17" />
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
 
     <application
-        android:label="@string/app_name"
+        android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
-        android:theme="@android:style/Theme.Holo.NoActionBar">
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme">
         <activity
-            android:name=".AdvertisingSample"
+            android:name="com.snakkads.tabsswipe.SplashScreen"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity 
+            android:name="com.snakkads.tabsswipe.MainActivity"
+            />
         <activity
             android:name="com.snakk.advertising.internal.SnakkAdActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize" />
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"/>
     </application>
+
 </manifest>
