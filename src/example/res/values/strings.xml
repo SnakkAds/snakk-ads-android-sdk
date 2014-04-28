@@ -1,27 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">SnakkAds SDK Demo</string>
-    <string name="action_settings">Settings</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_name">Advertising Sample</string>
+    <string name="adprompt">AdPrompt</string>
+    <string name="interstitial">Interstitial</string>
+    <string name="video">Video</string>
+    <string name="banner">Banner</string>
+
     <string name="app_appid">appid</string>
     <string name="app_accesskey">abcd12345</string>
     <string name="app_signaturekey">098765fghjkl</string>
     <string name="app_encryptionkey">65as6d54f065sd4f0</string>
-    <string name="banner_standard_zone_id">50963</string>
-    <string name="banner_rich_zone_id">50965</string>
-    <string name="video_zone_id">50971</string>
-    <string name="intrs_zone_id">50967</string>
-    <string name="adprompt_zone_id">50969</string>
-    <string name="banner_standard_zone_cid">312015</string>
-    <string name="banner_rich_zone_cid">312017</string>
-    <string name="intrs_zone_cid">312019</string>
-    
-    <string name="url">http://hapticgeneration.com.au</string>
-    <string-array name="tabnames">
-        <item>320x50</item>
-        <item>300x250</item>
-        <item>Interstitial Banner</item>
-        <item>Ad Prompt</item>
-        <item>Video VAST</item>
-    </string-array>
+
+    <string name="banner_zone_id">7979</string>
+    <string name="video_zone_id">7981</string>
+    <string name="intrs_zone_id">7983</string>
+    <string name="adprompt_zone_id">7984</string>
+
 </resources>
