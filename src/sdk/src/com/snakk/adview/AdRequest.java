@@ -5,7 +5,7 @@ import java.net.URLEncoder;
 import java.util.*;
 
 import android.content.Context;
-import android.util.Log;
+import com.snakk.core.SnakkLog;
 
 public class AdRequest {
     public static final String TAG = "Snakk";
@@ -31,11 +31,11 @@ public class AdRequest {
     public final static String PARAMETER_DEVICE_ID = "udid";
 
     private String adserverURL = "http://r.snakkads.com/adrequest.php";
-//    private String adserverURL = "http://dev.snakkads.com/~npenteado/adrequest.php";
 
     private Map<String, String> customParameters = new HashMap<String, String>();
 
     private AdLog adLog;
+    private boolean isAutomaticLocationTrackingEnabled = true;
 
     public AdRequest(AdLog adLog) {
         this.adLog = adLog;
@@ -62,7 +62,6 @@ public class AdRequest {
         parameters.put(PARAMETER_CARRIER_NAME, carrierName);
         parameters.put(PARAMETER_CARRIER_ID, carrierId);
         parameters.put(PARAMETER_LANGUAGES, Locale.getDefault().getLanguage());
-        parameters.put(PARAMETER_USER_AGENT, ua);
     }
 
     /**
@@ -422,11 +421,18 @@ public class AdRequest {
                                 .append(URLEncoder.encode(parmEntry.getKey(), "UTF-8"))
                                 .append('=').append(URLEncoder.encode(value, "UTF-8"));
                     } catch (UnsupportedEncodingException e) {
-                        Log.e(TAG, "An error occurred", e);
+                        SnakkLog.e(TAG, "An error occurred", e);
                     }
                 }
             }
         }
     }
 
+    public void setAutomaticLocationTrackingEnabled(boolean isAutomaticLocationTrackingEnabled) {
+        this.isAutomaticLocationTrackingEnabled = isAutomaticLocationTrackingEnabled;
+    }
+
+    public boolean isAutomaticLocationTrackingEnabled() {
+        return isAutomaticLocationTrackingEnabled;
+    }
 }

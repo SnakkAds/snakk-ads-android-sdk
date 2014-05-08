@@ -1,21 +1,15 @@
 package com.yourcompany.example;
 
 import android.app.Activity;
-import android.content.res.Resources;
-import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.webkit.WebView;
 import com.snakk.advertising.*;
-import com.snakk.advertising.internal.DeviceCapabilities;
 
-import java.util.HashMap;
-import java.util.Map;
 
 public class AdvertisingSample extends Activity {
 
-    private final static String TAG = "Snakk";
+    private final static String TAG = "AdvertisingSample";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -25,56 +19,6 @@ public class AdvertisingSample extends Activity {
         // test that you've integrated properly
         // NOTE: remove this before your app goes live!
         SnakkAdvertising.get().validateSetup(this);
-
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            WebView.setWebContentsDebuggingEnabled(true);
-        }
-    }
-
-    public void simpleAdPromptExmple() {
-        String zoneId = getResources().getString(R.string.adprompt_zone_id);
-        SnakkAdPrompt adPrompt = SnakkAdvertising.get().getAdPromptForZone(this, zoneId);
-        adPrompt.show();
-    }
-
-    public void advancedAdPromptExample() {
-        // generate a customized request
-        String zoneId = getResources().getString(R.string.adprompt_zone_id);
-        SnakkAdRequest request = SnakkAdvertising.get().getAdRequestBuilder(zoneId)
-                                                   .setTestMode(true)
-                                    .getPwAdRequest();
-
-        // get an ad instance using request
-        SnakkAdPrompt adPrompt = SnakkAdvertising.get().getAdPrompt(this, request);
-
-        // register for ad lifecycle callbacks
-        adPrompt.setListener(new SnakkAdPrompt.SnakkAdPromptListener() {
-            @Override
-            public void adPromptDidLoad(SnakkAdPrompt ad) {
-                // show ad as soon as it's loaded
-                Log.d(TAG, "AdPrompt Loaded");
-                ad.show();
-            }
-
-            @Override
-            public void adPromptDisplayed(SnakkAdPrompt ad) {
-                Log.d(TAG, "Ad Prompt Displayed");
-            }
-
-            @Override
-            public void adPromptDidFail(SnakkAdPrompt ad, String error) {
-                Log.d(TAG, "Ad Prompt Error: " + error);
-            }
-
-            @Override
-            public void adPromptClosed(SnakkAdPrompt ad, boolean didAccept) {
-                String btnName = didAccept ? "YES" : "NO";
-                Log.d(TAG, "Ad Prompt Closed with \"" + btnName + "\" button");
-            }
-        });
-
-        // load ad... we'll be notified when it's ready
-        adPrompt.load();
     }
 
 
@@ -89,16 +33,10 @@ public class AdvertisingSample extends Activity {
         // generate a customized request
         String zoneId = getResources().getString(R.string.intrs_zone_id);
 
-        Map<String,String> params = new HashMap<String, String>(1);
-//        params.put("cid", "238409");
-        params.put("cid", "177735");
-//        params.put("cid", "69558"); // fullscreen ad
-//        params.put("cid", "66218"); // medium rect ad
-
         SnakkAdRequest request = SnakkAdvertising.get().getAdRequestBuilder(zoneId)
-//                                                                    .setTestMode(true)
-                                                                    .setCustomParameters(params)
-                                                        .getPwAdRequest();
+                                                                // enable during the development phase
+                                                                .setTestMode(true)
+                                                        .getSnakkAdRequest();
 
         // get an ad instance using request
         SnakkInterstitialAd interstitialAd = SnakkAdvertising.get().getInterstitialAd(this, request);
@@ -144,8 +82,9 @@ public class AdvertisingSample extends Activity {
         // generate a customized request
         String zoneId = getResources().getString(R.string.video_zone_id);
         SnakkAdRequest request = SnakkAdvertising.get().getAdRequestBuilder(zoneId)
-                                                                    .setTestMode(true)
-                                                        .getPwAdRequest();
+                                                                // enable during the development phase
+                                                                .setTestMode(true)
+                                                        .getSnakkAdRequest();
 
         // get an ad instance using request
         SnakkVideoInterstitialAd videoAd = SnakkAdvertising.get().getVideoInterstitialAd(this, request);
@@ -191,21 +130,23 @@ public class AdvertisingSample extends Activity {
         // find the view in your layout
         SnakkBannerAdView bannerAdView = (SnakkBannerAdView)findViewById(R.id.bannerAdView);
 
+        // Banner rotation interval; defaults to 60 seconds.
 //        bannerAdView.setAdUpdateInterval(0); // no auto rotation
-        bannerAdView.setAdUpdateInterval(30);
+        bannerAdView.setAdUpdateInterval(30); // rotate every 30 seconds.
 
         // generate a customized request
         String zoneId = getResources().getString(R.string.banner_zone_id);
 
-        Map<String, String> params = new HashMap<String, String>(1);
-//        params.put("cid", "238409");
-        params.put("cid", "141297"); // samsung banner
-//        params.put("cid", "238447");
-
         SnakkAdRequest request = SnakkAdvertising.get().getAdRequestBuilder(zoneId)
-//                                                                    .setTestMode(true)
-//                                                                    .setCustomParameters(params)
-                                                            .getPwAdRequest();
+                                                                    // enable during the development phase
+                                                                    .setTestMode(true)
+
+//                                                                    // enable automatic gps based location tracking
+//                                                                    .setLocationTrackingEnabled(true)
+
+//                                                                    // optional keywords for custom targeting
+//                                                                    .setKeywords(Arrays.asList("keyword1", "keyword2"))
+                                                            .getSnakkAdRequest();
 
         // register for ad lifecycle callbacks
         bannerAdView.setListener(new SnakkBannerAdView.BannerAdListener() {
@@ -235,15 +176,15 @@ public class AdvertisingSample extends Activity {
             }
         });
 
+//        // Optionally set location manually.
+//        double lat = 40.7787895;
+//        double lng = -73.9660945;
+//        bannerAdView.updateLocation(lat, lng);
+
         // start banner rotating
         bannerAdView.startRequestingAds(request);
     }
 
-
-    public void fireAdPrompt(View sender) {
-        simpleAdPromptExmple();
-//        advancedAdPromptExample();
-    }
 
     public void fireInterstitial(View sender) {
 //        simpleInterstitialExample();
@@ -251,8 +192,8 @@ public class AdvertisingSample extends Activity {
     }
 
     public void fireVideoInterstitial(View sender) {
-        simpleVideoExample();
-//        advancedVideoExample();
+//        simpleVideoExample();
+        advancedVideoExample();
     }
 
     public void fireBanner(View sender) {

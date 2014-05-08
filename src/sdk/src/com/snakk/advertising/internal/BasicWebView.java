@@ -13,12 +13,14 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
+import com.snakk.core.SnakkLog;
 
 /**
  * Sets up a WebView w/ the appropriate config.  Also handles forwarding external
  * urls to the system where they can be routed appropriately.
  */
 public class BasicWebView extends WebView {
+    private static final String TAG = "Snakk";
 
     /**
      * override this object to customize webview behavior
@@ -41,7 +43,7 @@ public class BasicWebView extends WebView {
          *         this url.
          */
         public boolean shouldOverrideUrlLoading(BasicWebView view, String url) {
-            Log.d("Snakk", "BasicWebView.shouldOverrideUrlLoading(" + url + ')');
+            SnakkLog.d(TAG, "BasicWebView.shouldOverrideUrlLoading(" + url + ')');
             if (BasicWebView.isExternalUrl(url)) {
                 willLeaveApplication(view);
                 BasicWebView.openInExternalBrowser(view.getContext(), url);
@@ -150,7 +152,7 @@ public class BasicWebView extends WebView {
     }
 
     public static void openInExternalBrowser(Context context, String url) {
-        Log.d("Snakk", "BasicWebView.openInExternalBrowser(" + url + ')');
+        SnakkLog.d(TAG, "BasicWebView.openInExternalBrowser(" + url + ')');
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
 
         if (context instanceof SnakkAdActivity) {

@@ -74,7 +74,7 @@ public final class SnakkAdvertising {
      * @return A SnakkAdRequest instance that can be used to initialize an ad
      */
     public SnakkAdRequest getAdRequestForZone(String zone) {
-        return getAdRequestBuilder(zone).getPwAdRequest();
+        return getAdRequestBuilder(zone).getSnakkAdRequest();
     }
 
     /**

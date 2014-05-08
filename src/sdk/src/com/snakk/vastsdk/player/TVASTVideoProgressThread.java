@@ -4,7 +4,7 @@ import android.os.Handler;
 import android.os.Handler.Callback;
 import android.os.Looper;
 import android.os.Message;
-import android.util.Log;
+import com.snakk.core.SnakkLog;
 import com.snakk.vastsdk.player.TVASTPlayer.TVASTAdPlayerListener;
 
 import java.util.List;
@@ -13,6 +13,7 @@ import java.util.List;
  * A thread that fires periodic progress events for a VideoView. Callbacks are run in the UI thread.
  */
 public class TVASTVideoProgressThread extends Thread {
+    private static final String TAG = "TVASTVideoProgressThread";
 
     private static final int UPDATE = 1;
     private static final int QUIT = 2;
@@ -89,7 +90,7 @@ public class TVASTVideoProgressThread extends Thread {
                     mPlayer.getVideoView().getDuration() / 1000));
         } catch (IllegalStateException e) {
             // Video view is stopped.
-            Log.d("TVASTVideoProgressThread", "IllegalStateException during update");
+            SnakkLog.d(TAG, "IllegalStateException during update");
         }
     }
 

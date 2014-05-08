@@ -43,7 +43,7 @@ public class EventTracker {
 	}
 
 	/**
-	 * Send Event Notification To Phunware
+	 * Send Event Notification
 	 * 
 	 * @param context
 	 *            - The reference to the context of Activity

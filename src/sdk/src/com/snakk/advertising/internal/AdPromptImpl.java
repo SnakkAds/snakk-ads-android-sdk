@@ -12,7 +12,7 @@ public final class AdPromptImpl implements SnakkAdPrompt {
 
 
     public static SnakkAdPrompt getAdPromptForZone(Context context, String zone) {
-        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getPwAdRequest();
+        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getSnakkAdRequest();
         return getAdPrompt(context, request);
     }
 

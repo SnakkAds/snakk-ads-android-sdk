@@ -7,12 +7,12 @@ import android.graphics.Color;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.StateListDrawable;
 import android.os.Build;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
+import com.snakk.core.SnakkLog;
 import com.snakk.vastsdk.player.TVASTPlayer;
 import com.snakk.vastsdk.TVASTAdError.AdErrorCode;
 import com.snakk.vastsdk.TVASTAdError.AdErrorType;
@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 
 public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
+    private static final String TAG = "Snakk";
     private enum PlaybackState {
         STOPPED, PAUSED, PLAYING;
     }
@@ -225,7 +226,7 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
     }
 
     public void unload() {
-        Log.d("SnakkVASTSDK", "Need to remove the manager in this method");
+        SnakkLog.d(TAG, "Need to remove the manager in this method");
 
         if (mIsFullscreen) {
             // abort the unload if closing frame not shown
@@ -252,7 +253,7 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
 
         mPercentPlayed = 0.0f;
 
-        Log.d("SnakkVASTSDK", "AdsManager playAd()");
+        SnakkLog.d(TAG, "AdsManager playAd()");
 
         // hide player but still needs to be visible while it's being primed.
 //        ViewGroup.LayoutParams lp = ((FrameLayout) player).getLayoutParams();
@@ -290,7 +291,7 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
             public void onClick(View v) {
                 adView.removeView(transparentButton);
                 //adView.removeAllViews();
-                Log.d("SnakkVASTSDK", "Launch webview to show click through, " + clickUri);
+                SnakkLog.d(TAG, "Launch webview to show click through, " + clickUri);
                 if (clickUri != null && clickUri.length() > 0) {
                     adView.getSettings().setJavaScriptEnabled(true);
                     adView.loadUrl(clickUri);
@@ -318,7 +319,7 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
             Drawable d = context.getResources().getDrawable(android.R.drawable.ic_notification_clear_all);
             states.addState(new int[]{-android.R.attr.state_pressed}, d);
         } catch (RuntimeException e) {
-            Log.e("SnakkVASTSDK", "Failed to load close button drawable", e);
+            SnakkLog.e(TAG, "Failed to load close button drawable", e);
         }
         ImageButton closeButton = new ImageButton(context);
         closeButton.setImageDrawable(states);
@@ -378,22 +379,22 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
                     adView.setAdViewListener(new TVASTAdView.AdViewListener() {
                         @Override
                         public void onLoaded(TVASTAdView adView) {
-                            Log.d("SnakkVASTSDK", "Alert Ad Loaded.");
+                            SnakkLog.d(TAG, "Alert Ad Loaded.");
                         }
 
                         @Override
                         public void onError(TVASTAdView adView, String error) {
-                            Log.d("SnakkVASTSDK", "Alert Ad Error.");
+                            SnakkLog.d(TAG, "Alert Ad Error.");
                         }
 
                         @Override
                         public void onClicked(TVASTAdView adView) {
-                            Log.d("SnakkVASTSDK", "Alert Ad Clicked.");
+                            SnakkLog.d(TAG, "Alert Ad Clicked.");
                         }
 
                         @Override
                         public void willLeaveApplication(TVASTAdView adView) {
-                            Log.d("SnakkVASTSDK", "Alert Ad Leave.");
+                            SnakkLog.d(TAG, "Alert Ad Leave.");
                         }
                     });
 
@@ -446,11 +447,11 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
 
     /**
      * VideoAdPlayerCallback implementations follow:
-     * @see com.snakk.vastsdk.player.VideoAdPlayer.VideoAdPlayerCallback
+     * @see com.snakk.vastsdk.player.TVASTPlayer.TVASTAdPlayerListener
      */
     @Override
     public void onVideoClick(TVASTPlayer player) {
-        Log.d("SnakkVASTSDK", "Ad Clicked");
+        SnakkLog.d(TAG, "Ad Clicked");
         sendAdEvent(new TVASTAdEvent(TVASTAdEventType.CLICK));
         onStop();
 
@@ -490,14 +491,14 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
 
     @Override
     public void onVideoComplete(TVASTPlayer player) {
-        Log.d("SnakkVASTSDK", "Ad Ended");
+        SnakkLog.d(TAG, "Ad Ended");
         sendAdEvent(new TVASTAdEvent(TVASTAdEventType.COMPLETE));
         onStop();
     }
 
     @Override
     public void onVideoError(TVASTPlayer player) {
-        Log.d("SnakkVASTSDK", "Ad Error");
+        SnakkLog.d(TAG, "Ad Error");
 
         sendAdEvent(new TVASTAdEvent(TVASTAdEventType.ERROR));
         String errorUri = getErrorURIForErrorCode(300);
@@ -508,7 +509,7 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
 
     @Override
     public void onVideoPause(TVASTPlayer player) {
-        Log.d("SnakkVASTSDK", "Ad Pause");
+        SnakkLog.d(TAG, "Ad Pause");
         sendAdEvent(new TVASTAdEvent(TVASTAdEventType.PAUSE));
 
         mPlayState = PlaybackState.PAUSED;
@@ -517,10 +518,10 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
     @Override
     public void onVideoResume(TVASTPlayer player) {
         if (mPlayState == PlaybackState.STOPPED) {
-            Log.d("SnakkVASTSDK", "Ad Start");
+            SnakkLog.d(TAG, "Ad Start");
             sendAdEvent(new TVASTAdEvent(TVASTAdEventType.START));
         } else {
-            Log.d("SnakkVASTSDK", "Ad Resume");
+            SnakkLog.d(TAG, "Ad Resume");
             sendAdEvent(new TVASTAdEvent(TVASTAdEventType.RESUME));
         }
 
@@ -540,7 +541,7 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
         // request for the content to pause
         sendAdEvent(new TVASTAdEvent(TVASTAdEventType.CONTENT_PAUSE_REQUESTED));
 
-        Log.d("SnakkVASTSDK", "Ad Started");
+        SnakkLog.d(TAG, "Ad Started");
         sendAdEvent(new TVASTAdEvent(TVASTAdEventType.START));
 
         mPlayState = PlaybackState.PLAYING;
@@ -561,7 +562,7 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
             sendAdEvent(new TVASTAdEvent(TVASTAdEventType.THIRD_QUARTILE));
             mPercentPlayed = calcPercent;
         } else if (mPercentPlayed < 1.0 && calcPercent >= 1.0) {
-            Log.d("SnakkVASTSDK", "Progress: 100%.");
+            SnakkLog.d(TAG, "Progress: 100%.");
             //sendAdEvent(new TVASTAdEvent(TVASTAdEventType.CLOSE_LINEAR));
             mPercentPlayed = calcPercent;
         }
@@ -584,12 +585,12 @@ public class TVASTVideoAdsManager implements TVASTAdPlayerListener {
         postbackTask.setListener(new TVASTPostbackTask.TVASTPostbackListener() {
             @Override
             public void onSuccess(String data) {
-                Log.d("SnakkVASTSDK", "Postback:" + postbackUri + " successful.");
+                SnakkLog.d(TAG, "Postback:" + postbackUri + " successful.");
             }
 
             @Override
             public void onFailure(Exception error) {
-                Log.d("SnakkVASTSDK", "Postback:" + postbackUri + " failed.");
+                SnakkLog.d(TAG, "Postback:" + postbackUri + " failed.");
                 TVASTAdError adError = new TVASTAdError(AdErrorType.PLAY, AdErrorCode.VAST_INVALID_URL, error.getMessage());
                 TVASTAdErrorEvent adErrorEvent = new TVASTAdErrorEvent(adError);
                 for (TVASTAdErrorListener listener : mErrorListeners) {

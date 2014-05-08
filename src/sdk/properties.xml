@@ -42,15 +42,6 @@
         <include name="com/snakk/mediation/admob/package-info.java"/>
     </fileset>
 
-    <fileset id="rebrand.sdk.root.pathref" dir="${sdk.root}">
-        <include name="src/com/snakk/**" />
-        <include name="src/com/phunware/**" />
-        <exclude name="src/com/phunware/advertising/*AdvertisingModule.java" />
-        <exclude name="lib" />
-    </fileset>
-
-
-
     <fileset id="distributable.pathref" dir=".">
         <include name="LICENSE" />
         <include name="README.txt" />

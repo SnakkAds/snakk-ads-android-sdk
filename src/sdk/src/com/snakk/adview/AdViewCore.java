@@ -13,10 +13,12 @@ import android.util.Pair;
 import android.view.*;
 import android.webkit.*;
 import com.snakk.advertising.internal.*;
+import com.snakk.core.SnakkLog;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.params.CoreProtocolPNames;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -34,7 +36,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.widget.FrameLayout;
 
 
@@ -42,7 +43,7 @@ import android.widget.FrameLayout;
  * Viewer of advertising.
  */
 public abstract class AdViewCore extends WebView {
-    public static final String VERSION = "2.0.0";
+    public static final String VERSION = "2.0.1";
     public static final String TAG = "Snakk";
 
     private static final long AD_DEFAULT_RELOAD_PERIOD = 120000; // milliseconds
@@ -425,7 +426,6 @@ public abstract class AdViewCore extends WebView {
         adRequest = new AdRequest(adLog);
         adRequest.initDefaultParameters(context);
         adRequest
-                .setUa(ua)
                 .setZone(zone)
                 .setLatitude(latitude)
                 .setLongitude(longitude)
@@ -622,9 +622,9 @@ public abstract class AdViewCore extends WebView {
                 try {
                     publishProgress(BEGIN_STATE);
 
-                    Log.d("Snakk", url);
+                    SnakkLog.d(TAG, "Request: " + url);
                     data = requestGet(url);
-                    Log.d("Snakk", data);
+                    SnakkLog.d(TAG, "Response: " + data);
                     try {
                         JSONObject jsonObject = new JSONObject(data);
                         if(jsonObject.has("error")) {
@@ -644,19 +644,6 @@ public abstract class AdViewCore extends WebView {
                             } else {// if nothing equal then assume this is BANNER
                                 typeOfBanner = TYPE_BANNER;
                                 data = (String) jsonObject.get("html");
-
-
-//                                //TODO remove this test code!!!!
-//                                try {
-//                                    Log.e(TAG, "Nick is testing stuff!");
-//                                    Scanner scanner = new Scanner(new URL("http://dev.snakkads.com/~npenteado/test/mraidtester.html").openStream(), "UTF-8");
-//                                    data = scanner.useDelimiter("\\A").next();
-//                                    Log.e(TAG, "rewrote data: >>>>" + data + "<<<<");
-//                                    scanner.close();
-//                                } catch (MalformedURLException e ) {
-//                                    Log.e(TAG, "bad test url", e);
-//                                }
-
 
                                 if("".equals(data)) {
                                     this.error = "server returned a blank ad";
@@ -771,7 +758,7 @@ public abstract class AdViewCore extends WebView {
 ////                            Dimensions d = null;
 ////                            d = new Dimensions();
 ////                            d.x = 0; d.y = 0; d.width = 480; d.height = 480;
-////                            Log.d(TAG, videourl);
+////                            SnakkLog.d(TAG, videourl);
 //                            boolean audioMuted = false;
 //                            boolean autoPlay = false;
 //                            boolean showControls = false;
@@ -790,7 +777,7 @@ public abstract class AdViewCore extends WebView {
                 } catch (Exception e) {
                     adLog.log(AdLog.LOG_LEVEL_1, AdLog.LOG_TYPE_ERROR, "LoadContentTask",
                         e.getMessage());
-                    Log.e("Snakk", "An error occurred", e);
+                    SnakkLog.e(TAG, "An error occurred", e);
                     publishProgress(ERROR_STATE);
                 }
                 scheduleUpdate();
@@ -942,7 +929,7 @@ public abstract class AdViewCore extends WebView {
                     }
                 }
             } catch (Exception e) {
-                Log.d("Snakk", "An error occurred("+ url + ')', e);
+                SnakkLog.d(TAG, "An error occurred("+ url + ')', e);
                 adLog.log(AdLog.LOG_LEVEL_1, AdLog.LOG_TYPE_ERROR, "shouldOverrideUrlLoading",
                         e.getMessage());
             }
@@ -953,14 +940,14 @@ public abstract class AdViewCore extends WebView {
         @Override
         public void onPageStarted(WebView view, String url, Bitmap favicon) {
             super.onPageStarted(view, url, favicon);
-            Log.d("Snakk", "onPageStarted: " + url);
+//            SnakkLog.d(TAG, "onPageStarted: " + url);
             numPagesLoading++;
         }
 
         @Override
         public void onPageFinished(WebView view, String url) {
             numPagesLoading--;
-            Log.d("Snakk", "onPageFinished("+ numPagesLoading +"): " + url);
+//            SnakkLog.d(TAG, "onPageFinished("+ numPagesLoading +"): " + url);
             if (numPagesLoading == 0) {
               if(AdViewCore.this.mraid) {
                   if (getMraidState() == Mraid.MraidState.LOADING) {
@@ -986,7 +973,7 @@ public abstract class AdViewCore extends WebView {
                     adDownload.error((AdViewCore)view, description);
                 }
             } catch (Exception e){
-                Log.e("Snakk", "An error occurred", e);
+                SnakkLog.e(TAG, "An error occurred", e);
             }
         }
     }
@@ -1008,7 +995,7 @@ public abstract class AdViewCore extends WebView {
 //                if (!cm.sourceId().toLowerCase().startsWith("data:")) {
 //                    sb.append(" of ").append(cm.sourceId());
 //                }
-//                Log.d("Snakk", sb.toString());
+//                SnakkLog.d(TAG, sb.toString());
 //                return true;
 //            }
             return false;
@@ -1019,7 +1006,7 @@ public abstract class AdViewCore extends WebView {
                 
         if (openInInternalBrowser){
             try {
-                callPwAdActivity(url);
+                callSnakkAdActivity(url);
 
             } catch (ActivityNotFoundException e) {
                 adLog.log(AdLog.LOG_LEVEL_1, AdLog.LOG_TYPE_ERROR, "openUrlInExternalBrowser",
@@ -1052,7 +1039,7 @@ public abstract class AdViewCore extends WebView {
         }
     }
 
-    private void callPwAdActivity(final String url) {
+    private void callSnakkAdActivity(final String url) {
         AdActivityContentWrapper wrapper = new AdActivityContentWrapper() {
             private BasicWebView mWebView = null;
 
@@ -1128,6 +1115,7 @@ public abstract class AdViewCore extends WebView {
                 "requestGet[" + String.valueOf(rcounterLocal) + "]", url);
 
         DefaultHttpClient client = new DefaultHttpClient();
+        client.getParams().setParameter(CoreProtocolPNames.USER_AGENT, userAgent);
         HttpGet get = new HttpGet(url);
         HttpResponse response = client.execute(get);
         HttpEntity entity = response.getEntity();
@@ -1243,7 +1231,7 @@ public abstract class AdViewCore extends WebView {
         int widthPx = dipToPx(widthDip);
         int heightPx = dipToPx(heightDip);
 
-        Log.e(TAG, "pre-resize:" + leftPx + ", " + topPx);
+        SnakkLog.e(TAG, "pre-resize:" + leftPx + ", " + topPx);
 
         leftPx += dipToPx(offsetXDip);
         topPx += dipToPx(offsetYDip);
@@ -1287,7 +1275,7 @@ public abstract class AdViewCore extends WebView {
         }
         cancelUpdating();
 
-        Log.e(TAG, "post-resize:" + leftPx + ", " + topPx);
+        SnakkLog.e(TAG, "post-resize:" + leftPx + ", " + topPx);
 
         return true;
     }
@@ -1337,7 +1325,7 @@ public abstract class AdViewCore extends WebView {
     private static void swapViews(ViewGroup viewInLayout, ViewGroup altView) {
         ViewGroup parent = (ViewGroup) viewInLayout.getParent();
         if (parent == null) {
-            Log.w("Snakk", "Failed to swapViews because viewInLayout has no parent");
+            SnakkLog.w(TAG, "Failed to swapViews because viewInLayout has no parent");
             return;
         }
 
@@ -1497,7 +1485,7 @@ public abstract class AdViewCore extends WebView {
 //                getContext().startActivity(intent);
 //            }
 //            catch(ActivityNotFoundException e){
-//                Log.e("Snakk", "An error occured", e);
+//                SnakkLog.e(TAG, "An error occured", e);
 //            }
 //        } else if(d != null){
 //            msg.setData(data);
@@ -1519,7 +1507,7 @@ public abstract class AdViewCore extends WebView {
                     super.loadUrl(url);
                 }
             } catch (Exception e) {
-                Log.e("Snakk", "An error occurred", e);
+                SnakkLog.e(TAG, "An error occurred", e);
                 adLog.log(AdLog.LOG_LEVEL_1, AdLog.LOG_TYPE_ERROR, "loadUrl", e.getMessage());
             }
         } else {
@@ -1958,7 +1946,7 @@ public abstract class AdViewCore extends WebView {
    * @param urlStr the request in REST format
    */
     protected void handleNativeMraidCall(String urlStr) {
-      Log.d("Snakk", "handleNativeMraidCall(" + urlStr + ")");
+      SnakkLog.d(TAG, "handleNativeMraidCall(" + urlStr + ")");
       MraidCommand.routeRequest(urlStr, this);
     }
 
@@ -1972,7 +1960,7 @@ public abstract class AdViewCore extends WebView {
     protected void mraidResponse(Map<String, ?> data, String callbackToken) {
       StringBuilder sb = new StringBuilder("{");
       if (data != null) {
-//        Log.d("Snakk", "DATA: " + data);
+//        SnakkLog.d(TAG, "DATA: " + data);
         boolean isFirst = true;
         for (Map.Entry<String, ?> entry : data.entrySet()) {
           if(isFirst) {
@@ -2014,7 +2002,7 @@ public abstract class AdViewCore extends WebView {
         jsStr = String.format("mraid._nativeResponse(%s);console.debug(%d + ': command success!');", dataStr, commandCounter);
       }
 
-      Log.d("Snakk", "mraidResponse: " + jsStr);
+      SnakkLog.d(TAG, "mraidResponse: " + jsStr);
       injectJavaScript(jsStr);
     }
 
@@ -2192,7 +2180,7 @@ public abstract class AdViewCore extends WebView {
             try {
                 autoDetectParametersThread.interrupt();
             } catch (Exception e) {
-                Log.e(TAG, "an error occurred", e);
+                SnakkLog.e(TAG, "an error occurred", e);
             }
         }
     }
@@ -2240,11 +2228,9 @@ public abstract class AdViewCore extends WebView {
 
             AutoDetectedParametersSet autoDetectedParametersSet = AutoDetectedParametersSet.getInstance();
 
-            if(request.getUa() == null) {
-                request.setUa(autoDetectedParametersSet.getUa());
-            }
-
-            if (request.getLatitude() == null || request.getLongitude() == null) {
+            if (adRequest.isAutomaticLocationTrackingEnabled() &&
+                    (request.getLatitude() == null || request.getLongitude() == null)) {
+                SnakkLog.d(TAG, "setting request coordinates");
                 request.setLatitude(autoDetectedParametersSet.getLatitude());
                 request.setLongitude(autoDetectedParametersSet.getLongitude());
             }
@@ -2253,128 +2239,106 @@ public abstract class AdViewCore extends WebView {
 
         @Override
         public void run() {
-//            if (adRequest != null) {
-                AutoDetectedParametersSet autoDetectedParametersSet = AutoDetectedParametersSet
-                        .getInstance();
+            AutoDetectedParametersSet autoDetectedParametersSet = AutoDetectedParametersSet
+                    .getInstance();
 
-//                if (adRequest.getUa() == null) {
-                    if (autoDetectedParametersSet.getUa() == null) {
-                        if ((userAgent != null) && (userAgent.length() > 0)) {
-//                            adRequest.setUa(userAgent);
-                            autoDetectedParametersSet.setUa(userAgent);
-                        }
-                    }
-//                    else {
-//                        adRequest.setUa(autoDetectedParametersSet.getUa());
-//                    }
-//                }
+            if (autoDetectedParametersSet.getUa() == null) {
+                if ((userAgent != null) && (userAgent.length() > 0)) {
+                    autoDetectedParametersSet.setUa(userAgent);
+                }
+            }
 
-//                if ((adRequest.getLatitude() == null) || (adRequest.getLongitude() == null)) {
-                    if ((autoDetectedParametersSet.getLatitude() == null)
-                            || (autoDetectedParametersSet.getLongitude() == null)) {
-                        int isAccessFineLocation = context
-                                .checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
+            if (adRequest.isAutomaticLocationTrackingEnabled()) {
+                SnakkLog.d(TAG, "Automatic location tracking enabled");
+                if ((autoDetectedParametersSet.getLatitude() == null)
+                        || (autoDetectedParametersSet.getLongitude() == null)) {
+                    int isAccessFineLocation = context
+                            .checkCallingOrSelfPermission(Manifest.permission.ACCESS_FINE_LOCATION);
 
-                        boolean checkNetworkProdier = false;
-                        locationManager = (LocationManager) context
-                                .getSystemService(Context.LOCATION_SERVICE);
-                        if (isAccessFineLocation == PackageManager.PERMISSION_GRANTED) {
-                            boolean isGpsEnabled = locationManager
-                                    .isProviderEnabled(LocationManager.GPS_PROVIDER);
+                    boolean checkNetworkProdier = false;
+                    locationManager = (LocationManager) context
+                            .getSystemService(Context.LOCATION_SERVICE);
+                    if (isAccessFineLocation == PackageManager.PERMISSION_GRANTED) {
+                        boolean isGpsEnabled = locationManager
+                                .isProviderEnabled(LocationManager.GPS_PROVIDER);
 
-                            if (isGpsEnabled) {
-                                listener = new WhereamiLocationListener(locationManager,
-                                        autoDetectedParametersSet);
-                                locationManager.requestLocationUpdates(
-                                        LocationManager.GPS_PROVIDER, 0, 0, listener,
-                                        Looper.getMainLooper());
-                            } else {
-                                checkNetworkProdier = true;
-                                adLog.log(AdLog.LOG_LEVEL_2, AdLog.LOG_TYPE_WARNING,
-                                        "AutoDetectedParametersSet.Gps", "not avalable");
-                            }
+                        if (isGpsEnabled) {
+                            listener = new WhereamiLocationListener(locationManager,
+                                    autoDetectedParametersSet);
+                            locationManager.requestLocationUpdates(
+                                    LocationManager.GPS_PROVIDER, 0, 0, listener,
+                                    Looper.getMainLooper());
                         } else {
                             checkNetworkProdier = true;
                             adLog.log(AdLog.LOG_LEVEL_2, AdLog.LOG_TYPE_WARNING,
-                                    "AutoDetectedParametersSet.Gps",
-                                    "no permission ACCESS_FINE_LOCATION");
+                                    "AutoDetectedParametersSet.Gps", "not avalable");
                         }
+                    } else {
+                        checkNetworkProdier = true;
+                        adLog.log(AdLog.LOG_LEVEL_2, AdLog.LOG_TYPE_WARNING,
+                                "AutoDetectedParametersSet.Gps",
+                                "no permission ACCESS_FINE_LOCATION");
+                    }
 
-                        if (checkNetworkProdier) {
-                            int isAccessCoarseLocation = context
-                                    .checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
+                    if (checkNetworkProdier) {
+                        int isAccessCoarseLocation = context
+                                .checkCallingOrSelfPermission(Manifest.permission.ACCESS_COARSE_LOCATION);
 
-                            if (isAccessCoarseLocation == PackageManager.PERMISSION_GRANTED) {
-                                boolean isNetworkEnabled = locationManager
-                                        .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+                        if (isAccessCoarseLocation == PackageManager.PERMISSION_GRANTED) {
+                            boolean isNetworkEnabled = locationManager
+                                    .isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 
-                                if (isNetworkEnabled) {
-                                    listener = new WhereamiLocationListener(locationManager,
-                                            autoDetectedParametersSet);
-                                    locationManager.requestLocationUpdates(
-                                            LocationManager.NETWORK_PROVIDER, 0, 0, listener,
-                                            Looper.getMainLooper());
-                                } else {
-                                    adLog.log(AdLog.LOG_LEVEL_2, AdLog.LOG_TYPE_WARNING,
-                                            "AutoDetectedParametersSet.Network", "not avalable");
-                                }
+                            if (isNetworkEnabled) {
+                                listener = new WhereamiLocationListener(locationManager,
+                                        autoDetectedParametersSet);
+                                locationManager.requestLocationUpdates(
+                                        LocationManager.NETWORK_PROVIDER, 0, 0, listener,
+                                        Looper.getMainLooper());
                             } else {
                                 adLog.log(AdLog.LOG_LEVEL_2, AdLog.LOG_TYPE_WARNING,
-                                        "AutoDetectedParametersSet.Network",
-                                        "no permission ACCESS_COARSE_LOCATION");
+                                        "AutoDetectedParametersSet.Network", "not avalable");
+                            }
+                        } else {
+                            adLog.log(AdLog.LOG_LEVEL_2, AdLog.LOG_TYPE_WARNING,
+                                    "AutoDetectedParametersSet.Network",
+                                    "no permission ACCESS_COARSE_LOCATION");
+                        }
+                    }
+                }
+            } // isAutomaticLocationTrackingEnabled
+
+            if (autoDetectedParametersSet.getConnectionSpeed() == null) {
+                try {
+                    Integer connectionSpeed = null;
+                    ConnectivityManager connectivityManager = (ConnectivityManager) context
+                            .getSystemService(Context.CONNECTIVITY_SERVICE);
+                    NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+
+                    if (networkInfo != null) {
+                        int type = networkInfo.getType();
+                        int subtype = networkInfo.getSubtype();
+
+                        // 0 - low (gprs, edge), 1 - fast (3g, wifi)
+                        if (type == ConnectivityManager.TYPE_WIFI) {
+                            connectionSpeed = 1;
+                        } else if (type == ConnectivityManager.TYPE_MOBILE) {
+                            if (subtype == TelephonyManager.NETWORK_TYPE_EDGE) {
+                                connectionSpeed = 0;
+                            } else if (subtype == TelephonyManager.NETWORK_TYPE_GPRS) {
+                                connectionSpeed = 0;
+                            } else if (subtype == TelephonyManager.NETWORK_TYPE_UMTS) {
+                                connectionSpeed = 1;
                             }
                         }
                     }
-//                    else {
-//                        adRequest.setLatitude(autoDetectedParametersSet.getLatitude());
-//                        adRequest.setLongitude(autoDetectedParametersSet.getLongitude());
-//                        adLog.log(AdLog.LOG_LEVEL_2, AdLog.LOG_TYPE_WARNING,
-//                                "AutoDetectedParametersSet.Gps/Network=", "("
-//                                        + autoDetectedParametersSet.getLatitude() + ";"
-//                                        + autoDetectedParametersSet.getLongitude() + ")");
-//                    }
-//                }
 
-//                if (adRequest.getConnectionSpeed() == null) {
-                    if (autoDetectedParametersSet.getConnectionSpeed() == null) {
-                        try {
-                            Integer connectionSpeed = null;
-                            ConnectivityManager connectivityManager = (ConnectivityManager) context
-                                    .getSystemService(Context.CONNECTIVITY_SERVICE);
-                            NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-
-                            if (networkInfo != null) {
-                                int type = networkInfo.getType();
-                                int subtype = networkInfo.getSubtype();
-
-                                // 0 - low (gprs, edge), 1 - fast (3g, wifi)
-                                if (type == ConnectivityManager.TYPE_WIFI) {
-                                    connectionSpeed = 1;
-                                } else if (type == ConnectivityManager.TYPE_MOBILE) {
-                                    if (subtype == TelephonyManager.NETWORK_TYPE_EDGE) {
-                                        connectionSpeed = 0;
-                                    } else if (subtype == TelephonyManager.NETWORK_TYPE_GPRS) {
-                                        connectionSpeed = 0;
-                                    } else if (subtype == TelephonyManager.NETWORK_TYPE_UMTS) {
-                                        connectionSpeed = 1;
-                                    }
-                                }
-                            }
-
-                            if (connectionSpeed != null) {
-//                                adRequest.setConnectionSpeed(connectionSpeed);
-                                autoDetectedParametersSet.setConnectionSpeed(connectionSpeed);
-                            }
-                        } catch (Exception e) {
-                            Log.e(TAG, "an error occurred", e);
-                        }
+                    if (connectionSpeed != null) {
+                        autoDetectedParametersSet.setConnectionSpeed(connectionSpeed);
                     }
-//                    else {
-//                        adRequest
-//                                .setConnectionSpeed(autoDetectedParametersSet.getConnectionSpeed());
-//                    }
-//                }
-//            }
+                } catch (Exception e) {
+                    SnakkLog.e(TAG, "an error occurred", e);
+                }
+            }
         }
     }
 

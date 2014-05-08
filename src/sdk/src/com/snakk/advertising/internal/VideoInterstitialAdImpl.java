@@ -37,7 +37,7 @@ public class VideoInterstitialAdImpl extends AbstractStatefulAd implements Snakk
      * Call {@link #load()} to initiate ad request.
      */
     public static SnakkVideoInterstitialAd getVideoInterstitialAdForZone(Context context, String zone) {
-        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getPwAdRequest();
+        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getSnakkAdRequest();
         return VideoInterstitialAdImpl.getVideoInterstitialAd(context, request);
 
     }

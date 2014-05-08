@@ -1,6 +1,7 @@
 package com.snakk.advertising.internal;
 
 import com.snakk.advertising.SnakkAdRequest;
+import com.snakk.adview.Utils;
 import com.snakk.vastsdk.TVASTAdsRequest;
 import com.snakk.adview.AdRequest;
 
@@ -65,7 +66,7 @@ public final class AdRequestImpl implements SnakkAdRequest {
      *
      * <h3>Simple Example:</h3>
      * <pre>
-     *     AdRequestImpl request = AdRequestImpl.Builder("YOUR_ZONE_ID").getPwAdRequest();
+     *     AdRequestImpl request = AdRequestImpl.Builder("YOUR_ZONE_ID").getSnakkAdRequest();
      * </pre>
      *
      * <h3>Advanced Example:</h3>
@@ -79,7 +80,7 @@ public final class AdRequestImpl implements SnakkAdRequest {
      *
      *                                              // add relevant keywords to improve ad relevance
      *                                              .setKeywords(listOfKeywords);
-     *     AdRequestImpl request = builder.getPwAdRequest();
+     *     AdRequestImpl request = builder.getSnakkAdRequest();
      *     // pass request to ad class...
      * </pre>
      */
@@ -96,7 +97,7 @@ public final class AdRequestImpl implements SnakkAdRequest {
         }
 
         @Override
-        public SnakkAdRequest getPwAdRequest() {
+        public SnakkAdRequest getSnakkAdRequest() {
             return new AdRequestImpl(this);
         }
 
@@ -184,12 +185,10 @@ public final class AdRequestImpl implements SnakkAdRequest {
             cparms.put("mode", "test");
         }
 
-        if (request.isLocationTrackingEnabled()) {
-            //TODO implement me!
-        }
+        adRequest.setAutomaticLocationTrackingEnabled(request.isLocationTrackingEnabled());
 
         if (!request.getKeywords().isEmpty()) {
-            //TODO implement me!
+            cparms.put("keywords", Utils.join(request.getKeywords(), ","));
         }
 
         if (request.getPlacementType() != null) {

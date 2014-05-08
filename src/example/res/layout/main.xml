@@ -9,13 +9,6 @@
         android:layout_height="fill_parent">
 
         <Button
-            android:id="@+id/adpromptButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/adprompt"
-            android:onClick="fireAdPrompt" />
-
-        <Button
             android:id="@+id/interstitialButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

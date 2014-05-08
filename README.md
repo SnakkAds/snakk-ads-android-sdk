@@ -1,7 +1,7 @@
 Snakk Android SDK
 =================
 
-Version 2.0.0
+Version 2.0.1
 
 This is the Android SDK for the Snakk! mobile ad network. Go to http://snakkads.com/ for more details and to sign up.
 
@@ -47,22 +47,6 @@ See [AndroidManifest.xml](https://github.com/SnakkAds/snakk-ads-android-sdk/blob
 **NOTE:** Zones correspond to a specific ad type, which is specified through the Snakk dashboard.  Please ensure that you use the correct Zone ID for your ad units or you may experience un-expected results.
 
 A sample project is included in this repo.  See [Example Code](https://github.com/SnakkAds/snakk-ads-android-sdk/tree/master/src/example) for a live demo.
-
-AdPrompt Usage
---------------
-AdPrompts are a simple ad unit designed to have a native feel. The user is given the option to download an app, and if they accept, they are taken to the app within the app marketplace.
-
-*Example Usage*
-````java
-import com.snakk.advertising.*;
-
-// ...
-
-SnakkAdPrompt adPrompt = SnakkAdvertising.get().getAdPromptForZone(this, "YOUR_ADPROMPT_ZONE_ID");
-adPrompt.show();
-````
-
-Advanced implementation can be found in the [Example Code](https://github.com/SnakkAds/snakk-ads-android-sdk/blob/master/src/example/src/com/yourcompany/example/AdvertisingSample.java)
 
 
 Banner Usage

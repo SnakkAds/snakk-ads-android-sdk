@@ -3,8 +3,8 @@ package com.snakk.vastsdk;
 import android.content.Context;
 import android.graphics.Rect;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Xml;
+import com.snakk.core.SnakkLog;
 import com.snakk.vastsdk.TVASTAdError.AdErrorCode;
 import com.snakk.vastsdk.TVASTAdError.AdErrorType;
 import org.xmlpull.v1.XmlPullParser;
@@ -20,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 
 public class TVASTAdsLoader {
+    private static final String TAG = "Snakk";
 
     public class TVASTAdsLoadedEvent {
         Context mContext;
@@ -768,14 +769,14 @@ public class TVASTAdsLoader {
                 adError = new TVASTAdError(AdErrorType.LOAD, AdErrorCode.UNEXPECTED_LOADING_ERROR, mRootErrorUri);
             }
             else if (result instanceof XmlPullParserException) {
-                Log.d("SnakkVASTSDK", "XmlPullParserException: " + ((XmlPullParserException) result).toString());
+                SnakkLog.d(TAG, "XmlPullParserException: " + ((XmlPullParserException) result).toString());
                 String message = ((XmlPullParserException) result).getMessage();
                 if (message == null)
                     message = ((XmlPullParserException) result).toString();
 
                 adError = new TVASTAdError(AdErrorType.LOAD, AdErrorCode.UNEXPECTED_LOADING_ERROR, message);
             } else if (result instanceof IOException) {
-                Log.d("SnakkVASTSDK", "IOException: " + ((IOException) result).toString());
+                SnakkLog.d(TAG, "IOException: " + ((IOException) result).toString());
                 String message = ((IOException) result).getMessage();
                 if (message == null)
                     message = ((IOException) result).toString();
@@ -857,7 +858,7 @@ public class TVASTAdsLoader {
         mAdRequest = adRequest;
 
         String requestURL = mAdRequest.toString();
-        Log.d("Snakk", "request URL: " + requestURL);
+        SnakkLog.d(TAG, "request URL: " + requestURL);
 
         // Process the ad request.
         new DownloadXmlTask().execute(requestURL);
@@ -877,7 +878,7 @@ public class TVASTAdsLoader {
 
             @Override
             public void onSuccess(String data) {
-                Log.d("", "Postback:" + postbackUri + "successful.");
+                SnakkLog.d(TAG, "Postback:" + postbackUri + "successful.");
             }
 
             @Override

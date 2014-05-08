@@ -14,9 +14,9 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.content.pm.PackageManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
+import com.snakk.core.SnakkLog;
 
 public class Utils {
 
@@ -184,7 +184,7 @@ public class Utils {
                 String val = URLEncoder.encode(entry.getValue(), "UTF-8");
                 sb.append(key).append("=").append(val);
             } catch (UnsupportedEncodingException e) {
-                Log.e(TAG, "Failed to url encode values: " + entry);
+                SnakkLog.e(TAG, "Failed to url encode values: " + entry);
             }
         }
         return sb.toString();
@@ -221,5 +221,20 @@ public class Utils {
         PackageManager pm = context.getPackageManager();
         int result = pm.checkPermission(permission, context.getPackageName());
         return (result == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public static String join(Iterable<?> list, String delimiter) {
+        StringBuilder sb = new StringBuilder();
+        boolean addDelmiter = false;
+        for (Object obj : list) {
+            if (addDelmiter) {
+                sb.append(delimiter);
+            }
+            else {
+                addDelmiter = true;
+            }
+            sb.append(obj);
+        }
+        return sb.toString();
     }
 }

@@ -20,7 +20,7 @@ public final class InterstitialAdImpl extends AbstractStatefulAd implements Snak
      * Call {@link #load()} to initiate ad request.
      */
     public static SnakkInterstitialAd getInterstitialAdForZone(Context context, String zone) {
-        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getPwAdRequest();
+        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getSnakkAdRequest();
         return InterstitialAdImpl.getInterstitialAd(context, request);
 
     }

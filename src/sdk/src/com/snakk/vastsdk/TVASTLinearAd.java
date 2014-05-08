@@ -2,13 +2,14 @@ package com.snakk.vastsdk;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
+import com.snakk.core.SnakkLog;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
 public class TVASTLinearAd implements Parcelable {
+    private static final String TAG = "Snakk";
 
     private String mSkipOffset;
     private String mAdParams;
@@ -77,7 +78,7 @@ public class TVASTLinearAd implements Parcelable {
 
         for (int index = 0; index < mediaFiles.size(); index++) {
             TVASTMediaFile mediaFile = mediaFiles.get(index);
-            Log.d("SnakkVASTSDK", mediaFile.getURIMediaFile());
+            SnakkLog.d(TAG, mediaFile.getURIMediaFile());
             if (mediaFile.getMimeType().equalsIgnoreCase("video/mp4") &&
                     !mediaFile.getURIMediaFile().trim().endsWith(".m3u8") &&
                     selectedBitrate < mediaFile.getBitrate() &&

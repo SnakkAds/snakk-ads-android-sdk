@@ -1,7 +1,6 @@
 package com.snakk.adview;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +9,7 @@ import android.widget.RelativeLayout;
 
 import com.snakk.advertising.internal.*;
 import com.snakk.advertising.internal.SnakkAdActivity;
+import com.snakk.core.SnakkLog;
 
 public abstract class AdInterstitialBaseView extends AdView implements AdViewCore.OnAdDownload {
 
@@ -240,7 +240,7 @@ public abstract class AdInterstitialBaseView extends AdView implements AdViewCor
 
 //    @Override
 //    public boolean onKeyDown(int keyCode, KeyEvent event)  {
-//        Log.d("Snakk", "AdInterstitialBaseView.onKeyDown");
+//        SnakkLog.d(TAG, "AdInterstitialBaseView.onKeyDown");
 //        // Close interstitial properly on back button press
 //        if (keyCode == KeyEvent.KEYCODE_BACK && event.getRepeatCount() == 0) {
 //            closeInterstitial();
@@ -276,15 +276,15 @@ public abstract class AdInterstitialBaseView extends AdView implements AdViewCor
            if(desiredClass != null)
                id = desiredClass.getField(name).getInt(desiredClass);
        } catch (ClassNotFoundException e) {
-           Log.e("Snakk", "An error occurred", e);
+           SnakkLog.e(TAG, "An error occurred!", e);
        } catch (IllegalArgumentException e) {
-           Log.e("Snakk", "An error occurred", e);
+           SnakkLog.e(TAG, "An error occurred", e);
        } catch (SecurityException e) {
-           Log.e("Snakk", "An error occurred", e);
+           SnakkLog.e(TAG, "An error occurred", e);
        } catch (IllegalAccessException e) {
-           Log.e("Snakk", "An error occurred", e);
+           SnakkLog.e(TAG, "An error occurred", e);
        } catch (NoSuchFieldException e) {
-           Log.e("Snakk", "An error occurred", e);
+           SnakkLog.e(TAG, "An error occurred", e);
        }
 
        return id;

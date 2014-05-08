@@ -21,7 +21,7 @@ public final class Config {
         Properties prop = new Properties();
 
         String t_env = "prod";
-        String t_sdk_v = "1.1.0";
+        String t_sdk_v = "1.1.1";
         String t_core_req = "1.0.0";
         try {
             // load a properties file

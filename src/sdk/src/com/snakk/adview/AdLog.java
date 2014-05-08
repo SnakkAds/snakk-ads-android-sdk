@@ -3,9 +3,10 @@ package com.snakk.adview;
 import java.io.File;
 import java.io.IOException;
 
-import android.util.Log;
+import com.snakk.core.SnakkLog;
 
 public class AdLog {
+    private static final String TAG = "Snakk";
 
     /*
      * Where logLever can be one of:
@@ -60,7 +61,7 @@ public class AdLog {
             String cmd = "logcat -v time -f " + filename.getAbsolutePath();
             Runtime.getRuntime().exec(cmd);
         } catch (IOException e) {
-            Log.e("Snakk", "An error occured", e);
+            SnakkLog.e(TAG, "An error occured", e);
         }
     }
 
@@ -75,13 +76,13 @@ public class AdLog {
         if (Level <= currentLogLevel) {
             switch (Type) {
             case LOG_TYPE_ERROR:
-                Log.e(resultTag, msg + ' ');
+                SnakkLog.e(resultTag, msg + ' ');
                 break;
             case LOG_TYPE_WARNING:
-                Log.w(resultTag, msg + ' ');
+                SnakkLog.w(resultTag, msg + ' ');
                 break;
             default:
-                Log.i(resultTag, msg + ' ');
+                SnakkLog.i(resultTag, msg + ' ');
             }
         }
     }

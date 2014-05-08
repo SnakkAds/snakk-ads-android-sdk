@@ -9,6 +9,7 @@ import java.util.Map;
 import android.view.View;
 import com.snakk.advertising.internal.*;
 import com.snakk.advertising.internal.SnakkAdActivity;
+import com.snakk.core.SnakkLog;
 import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
@@ -21,9 +22,9 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.AsyncTask;
-import android.util.Log;
 
 public class AdPrompt {
+    private static final String TAG = "Snakk";
     private static final String AD_TYPE_DIALOG = "10";
 
     protected Context context;
@@ -175,7 +176,7 @@ public class AdPrompt {
             if(listener != null) {
                 listener.adPromptError(this, e.getMessage());
             }
-            Log.e("Snakk", "An error occurred while attempting to display AdPrompt", e);
+            SnakkLog.e(TAG, "An error occurred while attempting to display AdPrompt", e);
         }
     }
 
@@ -202,14 +203,14 @@ public class AdPrompt {
 
     private String requestGet(String url) throws IOException {
         DefaultHttpClient client = new DefaultHttpClient();
-        Log.d("Snakk", url);
+        SnakkLog.d(TAG, url);
         HttpGet get = new HttpGet(url);
         HttpResponse response = client.execute(get);
         HttpEntity entity = response.getEntity();
         InputStream inputStream = entity.getContent();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream, 8192);
         String responseValue = readInputStream(bufferedInputStream);
-        Log.d("Snakk", responseValue);
+        SnakkLog.d(TAG, responseValue);
         bufferedInputStream.close();
         inputStream.close();
         return responseValue;

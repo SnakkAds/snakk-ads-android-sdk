@@ -3,10 +3,7 @@ package com.snakk.adview;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.util.AttributeSet;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewParent;
-import com.snakk.advertising.SnakkBannerAdView;
 
 import java.util.Map;
 
@@ -96,19 +93,6 @@ public class AdView extends AdViewCore {
         if (adRequest != null) {
             AutoDetectedParametersSet autoDetectedParametersSet = AutoDetectedParametersSet
                     .getInstance();
-
-            if (adRequest.getUa() == null) {
-                if (autoDetectedParametersSet.getUa() == null) {
-                    String userAgent = getSettings().getUserAgentString();
-
-                    if ((userAgent != null) && (userAgent.length() > 0)) {
-                        adRequest.setUa(userAgent);
-                        autoDetectedParametersSet.setUa(userAgent);
-                    }
-                } else {
-                    adRequest.setUa(autoDetectedParametersSet.getUa());
-                }
-            }
         }
 
     }

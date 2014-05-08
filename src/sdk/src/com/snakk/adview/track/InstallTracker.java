@@ -17,8 +17,7 @@ import com.snakk.adview.AdLog;
 import com.snakk.adview.Utils;
 
 /**
- * Conversion and Installation Tracker. Sends a notification to Phunware servers
- * with UDID, UA, and Package Name
+ * Conversion and Installation Tracker. Logs install, with UDID, UA, and Package Name
  */
 public class InstallTracker {
 	private Context mContext;
@@ -28,6 +27,7 @@ public class InstallTracker {
 
 	static private String TRACK_HOST = "a.snakkads.com";
 	static private String TRACK_HANDLER = "/adconvert.php";
+    private static final String SHARED_PREF_NAME = "snakkSettings";
 
 	private static InstallTracker mInstance = null;
 
@@ -45,7 +45,7 @@ public class InstallTracker {
 	}
 
 	/**
-	 * Send Install Notification To Phunware
+	 * Send Install Notification
 	 * 
 	 * @param context
 	 *            - The reference to the context of Activity
@@ -55,7 +55,7 @@ public class InstallTracker {
 	}
 
 	/**
-	 * Send Install Notification To Phunware
+	 * Send Install Notification
 	 * 
 	 * @param context
 	 *            - The reference to the context of Activity
@@ -72,7 +72,7 @@ public class InstallTracker {
 		mOfferId = offer;
 		mPackageName = mContext.getPackageName();
 
-		SharedPreferences settings = mContext.getSharedPreferences("phunwareSettings", 0);
+		SharedPreferences settings = mContext.getSharedPreferences(SHARED_PREF_NAME, 0);
 		if (settings.getBoolean(mPackageName + " installed", false) == false) {
 			ua = Utils.getUserAgentString(mContext);
 			new Thread(mTrackInstall).start();
@@ -137,7 +137,7 @@ public class InstallTracker {
 
 			// If we made it here, the request has been tracked
 			adLog.log(AdLog.LOG_LEVEL_3, AdLog.LOG_TYPE_INFO, "InstallTracker", "Install track successful");
-			SharedPreferences.Editor editor = mContext.getSharedPreferences("phunwareSettings", 0)
+			SharedPreferences.Editor editor = mContext.getSharedPreferences(SHARED_PREF_NAME, 0)
 					.edit();
 			editor.putBoolean(mPackageName + " installed", true).commit();
 		}

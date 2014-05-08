@@ -3,7 +3,6 @@ package com.snakk.adview;
 import android.content.Intent;
 import android.net.Uri;
 import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +10,7 @@ import android.widget.FrameLayout;
 import com.snakk.advertising.internal.AdActivityContentWrapper;
 import com.snakk.advertising.internal.SnakkAdActivity;
 import com.snakk.adview.Mraid.*;
+import com.snakk.core.SnakkLog;
 
 import java.io.UnsupportedEncodingException;
 import java.text.ParseException;
@@ -181,7 +181,7 @@ enum MraidCommand implements IMraidCommand {
                         ;
                 adView.getContext().startActivity(intent);
             } catch (ParseException e) {
-                Log.e(TAG, "Failed To parse dates", e);
+                SnakkLog.e(TAG, "Failed To parse dates", e);
             }
         }
     }),
@@ -210,7 +210,7 @@ enum MraidCommand implements IMraidCommand {
                 adView.getMraidExpandedActivity().setRequestedOrientation(forceOrientation.orientation);
             }
             else {
-                Log.d(TAG, "setOrientationProperties call ignored");
+                SnakkLog.d(TAG, "setOrientationProperties call ignored");
             }
         }
     });
@@ -252,19 +252,19 @@ enum MraidCommand implements IMraidCommand {
             try {
                 params = Utils.parseUrlParams(url);
             } catch (UnsupportedEncodingException e) {
-                Log.e(TAG, "Failed to parse native MRAID QS params: " + url);
+                SnakkLog.e(TAG, "Failed to parse native MRAID QS params: " + url);
                 return;
             }
         }
         parts = DBL_SLASH_PATTERN.split(commandName);
         if (parts.length != 2) {
-            Log.e(TAG, "Failed to parse native MRAID command: " + url);
+            SnakkLog.e(TAG, "Failed to parse native MRAID command: " + url);
             return;
         }
         commandName = parts[1];
 
         // fire off command
-        Log.d(TAG, "Command: " + commandName + '(' + params + ')');
+        SnakkLog.d(TAG, "Command: " + commandName + '(' + params + ')');
         MraidCommand command = marshalMraidCommand(commandName);
         if (command != null) {
             command.execute(params, adView);

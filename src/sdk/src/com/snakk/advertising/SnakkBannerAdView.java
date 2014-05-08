@@ -1,6 +1,8 @@
 package com.snakk.advertising;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.os.Build;
 import android.os.Handler;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
@@ -101,8 +103,8 @@ public final class SnakkBannerAdView extends ViewGroup {
      * @param zone Identifier of ad placement to be loaded.
      */
     public final void startRequestingAdsForZone(String zone) {
-//        AdRequestImpl request = new AdRequestImpl.BuilderImpl(zone).getPwAdRequest();
-        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getPwAdRequest();
+//        AdRequestImpl request = new AdRequestImpl.BuilderImpl(zone).getSnakkAdRequest();
+        SnakkAdRequest request = new AdRequestImpl.BuilderImpl(zone).getSnakkAdRequest();
         startRequestingAds(request);
     }
 
@@ -131,6 +133,12 @@ public final class SnakkBannerAdView extends ViewGroup {
         setupLegacyListener();
 
         AdRequest legacyAdRequest = AdRequestImpl.asImplAdRequest(adRequest);
+        if (latitude != 0.0) {
+            legacyAdRequest.setLatitude(String.valueOf(latitude));
+        }
+        if (longitude != 0.0) {
+            legacyAdRequest.setLongitude(String.valueOf(longitude));
+        }
         setContainerSize(legacyAdRequest);
         legacyBannerAdView.startRequestingAds(legacyAdRequest);
 
@@ -327,11 +335,8 @@ public final class SnakkBannerAdView extends ViewGroup {
      * @param longitude the longitude in decimal degrees
      */
     public void updateLocation(double latitude, double longitude) {
-        if (legacyBannerAdView == null) {
-            return;
-        }
-        legacyBannerAdView.setLatitude(String.valueOf(latitude));
-        legacyBannerAdView.setLongitude(String.valueOf(longitude));
+        this.latitude = latitude;
+        this.longitude = longitude;
     }
 
 
@@ -347,6 +352,8 @@ public final class SnakkBannerAdView extends ViewGroup {
     private BannerAdListener listener = null;
     private SnakkAdRequest adRequest = null;
     private int adUpdateIntervalSeconds = REFRESH_DELAY_SECONDS;
+    private double latitude;
+    private double longitude;
 
     private final Handler timerHandler = new Handler();
     private final Runnable timerRunnable = new Runnable() {
@@ -380,7 +387,7 @@ public final class SnakkBannerAdView extends ViewGroup {
         if (zone != null) {
             adRequest = new AdRequestImpl.BuilderImpl(zone)
                     .setTestMode(isTestMode)
-                    .getPwAdRequest();
+                    .getSnakkAdRequest();
         }
 
         if (autoLoad && zone == null) {
@@ -394,6 +401,7 @@ public final class SnakkBannerAdView extends ViewGroup {
      **************************************************************/
 
 
+    @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
     @Override
     protected void onAttachedToWindow() {
 //        SnakkLog.d(TAG, "onAttachedToWindow()");
@@ -407,7 +415,12 @@ public final class SnakkBannerAdView extends ViewGroup {
                 @Override
                 public void onGlobalLayout() {
 //                    SnakkLog.d(TAG, "onGlobalLayout()");
-                    vto.removeOnGlobalLayoutListener(this);
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        vto.removeOnGlobalLayoutListener(this); // only available on api lvl 16+
+                    }
+                    else {
+                        vto.removeGlobalOnLayoutListener(this);
+                    }
                     resumeRequestingAds();
 
                 }

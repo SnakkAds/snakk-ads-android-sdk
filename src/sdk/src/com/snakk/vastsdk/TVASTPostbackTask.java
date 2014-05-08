@@ -71,7 +71,7 @@ public class TVASTPostbackTask extends AsyncTask<Integer, Integer, Object> {
         if (mUrl == null)
             return null;
 
-        //Log.d("SnakkVASTSDK", mUrl);
+        //SnakkLog.d(TAG, mUrl);
         String data;
         try {
             data = postbackRequest(mUrl);
@@ -83,7 +83,7 @@ public class TVASTPostbackTask extends AsyncTask<Integer, Integer, Object> {
 
     @Override
     protected void onPostExecute(Object response) {
-        //Log.d("SnakkVASTSDK", response);
+        //SnakkLog.d(TAG, response);
         String error = null;
 
         if (response instanceof String) {

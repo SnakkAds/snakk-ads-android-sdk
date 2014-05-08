@@ -91,7 +91,6 @@ public class SnakkAdActivity extends Activity {
     public void onBackPressed() {
         // don't call super, we'll handle in close(), if allowed
 //        SnakkLog.d(TAG, "SnakkAdActivity.onBackPressed");
-//        Log.d(TAG, "SnakkAdActivity.onBackPressed");
         if (adActivityContentWrapper.shouldClose()) {
             close();
         }
@@ -126,7 +125,6 @@ public class SnakkAdActivity extends Activity {
             final Runnable dimmingRunnable = new Runnable(){
                 @Override
                 public void run() {
-//                    Log.d("SendDROID", "dimming");
                     SnakkAdActivity.this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LOW_PROFILE);
                 }
             };
@@ -135,7 +133,6 @@ public class SnakkAdActivity extends Activity {
             getWindow().getDecorView().setOnSystemUiVisibilityChangeListener(new View.OnSystemUiVisibilityChangeListener() {
                 @Override
                 public void onSystemUiVisibilityChange(int visibility) {
-//                    Log.d("SendDROID", "will dim in a moment...");
                     if (visibility == View.SYSTEM_UI_FLAG_VISIBLE) {
                         handler.postDelayed(dimmingRunnable, 2000);
                     }
@@ -153,7 +150,7 @@ public class SnakkAdActivity extends Activity {
      */
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        Log.d(TAG, "onActivityResult(" + requestCode + ", " + resultCode + ", " + data + ")");
+//        SnakkLog.d(TAG, "onActivityResult(" + requestCode + ", " + resultCode + ", " + data + ")");
         close();
     }
 }

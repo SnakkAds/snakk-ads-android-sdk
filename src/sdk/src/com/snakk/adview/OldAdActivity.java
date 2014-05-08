@@ -5,19 +5,20 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.webkit.WebChromeClient;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.LinearLayout;
 import com.snakk.adview.AdViewCore.OnInterstitialAdDownload;
+import com.snakk.core.SnakkLog;
 
 @Deprecated
 public class OldAdActivity extends Activity {
+    private static final String TAG = "Snakk";
+
     public static AdInterstitialBaseView adView; // this will only be set for interstitials
     public static AdViewCore callingAdView; // this will only be set for banner ads
 
@@ -79,7 +80,7 @@ public class OldAdActivity extends Activity {
                         startActivityForResult(intent,3);
                     }
                     catch(Exception e) {
-                        Log.e("Snakk", "An error occured", e);
+                        SnakkLog.e(TAG, "An error occured", e);
                     }
                     return true;
                 }

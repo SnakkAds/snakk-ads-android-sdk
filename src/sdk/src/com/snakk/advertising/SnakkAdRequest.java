@@ -46,7 +46,7 @@ public interface SnakkAdRequest {
      *
      * <h3>Example Usage</h3>
      * <pre>
-     * SnakkAdRequest.Builder builder = SnakkAdvertising.getPwAdRequestBuilder("YOUR_ZONE_ID")
+     * SnakkAdRequest.Builder builder = SnakkAdvertising.getSnakkAdRequestBuilder("YOUR_ZONE_ID")
      *                                          // enable test mode during development
      *                                          .setTestMode(true)
      *
@@ -55,12 +55,12 @@ public interface SnakkAdRequest {
      *
      *                                          // add relevant keywords to improve ad relevance
      *                                          .setKeywords(listOfKeywords);
-     * SnakkAdRequest request = builder.getPwAdRequest();
+     * SnakkAdRequest request = builder.getSnakkAdRequest();
      * </pre>
      */
     public static interface Builder {
 
-        public SnakkAdRequest getPwAdRequest();
+        public SnakkAdRequest getSnakkAdRequest();
 
         public String getZone();
 

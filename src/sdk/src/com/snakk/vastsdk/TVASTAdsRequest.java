@@ -1,7 +1,7 @@
 package com.snakk.vastsdk;
 
 import android.content.Context;
-import android.util.Log;
+import com.snakk.core.SnakkLog;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -9,6 +9,7 @@ import java.util.*;
 
 
 public class TVASTAdsRequest {
+    private static final String TAG = "Snakk";
 
     protected static final String SERVER_BASE_URL = "http://r.snakkads.com";
 
@@ -303,7 +304,7 @@ public class TVASTAdsRequest {
                             builderToString.append("&" + URLEncoder.encode(param, "UTF-8") + "="
                                     + URLEncoder.encode(value, "UTF-8"));
                         } catch (UnsupportedEncodingException e) {
-                            Log.e("Snakk", "An error occured", e);
+                            SnakkLog.e(TAG, "An error occured", e);
                         }
                     }
                 }
