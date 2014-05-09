@@ -271,7 +271,7 @@ public class TVASTAdsLoader {
                     String apiFramework = parser.getAttributeValue(namespace, "apiFramework");
 
                     int iSequence = Integer.parseInt(sequence);
-                    TVASTCreative creative = (creatives == null || creatives.get(i) == null) ? new TVASTCreative()
+                    TVASTCreative creative = (creatives == null || creatives.size() <= i || creatives.get(i) == null) ? new TVASTCreative()
                             : creatives.get(i);
                     creative.setAdId(adId);
                     creative.setSequence(iSequence);
